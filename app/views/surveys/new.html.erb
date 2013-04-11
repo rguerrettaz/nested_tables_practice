@@ -1,0 +1,22 @@
+New survey!
+
+<%= form_for @survey do |survey_form| %>
+  Title: <%= survey_form.text_field :title %><br>
+  Description: <%= survey_form.text_area :description %>
+
+  <% @survey.questions.each_with_index do |question, index| %>
+  
+    <%= survey_form.fields_for :questions, question do |question_fields| %>
+      <%= "Question #{index+1}"%> <%= question_fields.text_area :content %>
+      <% question.choices.each do |choice| %>
+        <%= question_fields.fields_for :choices, choice do |choice| %>
+          <%= "Choice" %> <%= choice.text_area :value %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+
+  <% end %>
+  
+  <%= survey_form.submit "Create Survey" %>
+<% end %>
